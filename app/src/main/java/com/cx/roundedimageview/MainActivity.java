@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mRoundedImageView=findViewById(R.id.image);
-        mRoundedImageView.setImageResource(R.drawable.nature);
+//        mRoundedImageView.setRadius(30);
+        mRoundedImageView.setImageResource(R.drawable.city);
     }
 }

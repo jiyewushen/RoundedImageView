@@ -2,17 +2,21 @@ package com.cx.uilib;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /**
- * 对大分辨的图片无效
  * Created by cx on 2018/6/5.
  */
 public class RoundedImageView extends ImageView {
@@ -61,12 +65,38 @@ public class RoundedImageView extends ImageView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (mRectF != null) {
-            mPath.addRoundRect(mRectF, radius, radius, Path.Direction.CW);
-            canvas.clipPath(mPath);
-        }
+//        if (mRectF != null) {
+//            mPath.addRoundRect(mRectF, radius, radius, Path.Direction.CW);
+//            canvas.clipPath(mPath);
+//        }
+        setImageDrawable(getDrawable());
         super.onDraw(canvas);
     }
+
+    @Override
+    public void setImageBitmap(Bitmap bm) {
+//        super.setImageBitmap(bm);
+        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), bm);
+        roundedBitmapDrawable.setCornerRadius(radius);
+        setImageDrawable(roundedBitmapDrawable);
+    }
+
+    @Override
+    public void setImageDrawable(@Nullable Drawable drawable) {
+        if (drawable==null)return;
+        if (!(drawable instanceof RoundedBitmapDrawable)){
+           Bitmap bitmap= ((BitmapDrawable)drawable).getBitmap();
+            if (bitmap!=null){
+               RoundedBitmapDrawable roundedBitmapDrawable= RoundedBitmapDrawableFactory.create(getResources(),bitmap);
+                roundedBitmapDrawable.setCornerRadius(radius);
+                super.setImageDrawable(roundedBitmapDrawable);
+                return;
+            }
+        }
+        super.setImageDrawable(drawable);
+    }
+
+
 
     public void setRadius(float radius) {
         this.radius = radius;
