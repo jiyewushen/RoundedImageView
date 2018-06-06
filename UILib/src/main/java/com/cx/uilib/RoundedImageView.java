@@ -19,6 +19,7 @@ import android.widget.ImageView;
 /**
  * Created by cx on 2018/6/5.
  */
+// FIXME: 2018/6/6 存在只能使用代码进行圆角操作，现在支持src,不支持background
 public class RoundedImageView extends ImageView {
    private Path mPath;
    private RectF mRectF;
@@ -69,7 +70,10 @@ public class RoundedImageView extends ImageView {
 //            mPath.addRoundRect(mRectF, radius, radius, Path.Direction.CW);
 //            canvas.clipPath(mPath);
 //        }
-        setImageDrawable(getDrawable());
+        Drawable drawable=getDrawable();
+        if (drawable!=null&&!(drawable instanceof RoundedBitmapDrawable)){
+            setImageDrawable(drawable);
+        }
         super.onDraw(canvas);
     }
 
