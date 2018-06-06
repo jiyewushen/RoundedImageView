@@ -3,7 +3,6 @@ package com.cx.uilib;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
@@ -60,18 +59,25 @@ public class RoundedImageView extends ImageView {
         }finally {
             typedArray.recycle();
         }
+        Drawable drawable= getDrawable();
+        if (drawable!=null){
+         if (drawable instanceof RoundedBitmapDrawable){
+             ((RoundedBitmapDrawable)drawable).setCornerRadius(radius);
+         }else {
+             setImageDrawable(drawable);
+         }
+        }
     }
 
-
-    @Override
-    protected void onDraw(Canvas canvas) {
+//sometime is not working
+//    @Override
+//    protected void onDraw(Canvas canvas) {
 //        if (mRectF != null) {
 //            mPath.addRoundRect(mRectF, radius, radius, Path.Direction.CW);
 //            canvas.clipPath(mPath);
 //        }
-        setImageDrawable(getDrawable());
-        super.onDraw(canvas);
-    }
+//        super.onDraw(canvas);
+//    }
 
     @Override
     public void setImageBitmap(Bitmap bm) {

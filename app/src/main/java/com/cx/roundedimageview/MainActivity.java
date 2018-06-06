@@ -13,6 +13,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mRoundedImageView=findViewById(R.id.image);
 //        mRoundedImageView.setRadius(30);
-        mRoundedImageView.setImageResource(R.drawable.city);
+//        mRoundedImageView.setImageResource(R.drawable.city);
     }
 }
