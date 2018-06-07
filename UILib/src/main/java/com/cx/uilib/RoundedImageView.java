@@ -3,7 +3,6 @@ package com.cx.uilib;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
@@ -19,7 +18,6 @@ import android.widget.ImageView;
 /**
  * Created by cx on 2018/6/5.
  */
-// FIXME: 2018/6/6 存在只能使用代码进行圆角操作，现在支持src,不支持background
 public class RoundedImageView extends ImageView {
    private Path mPath;
    private RectF mRectF;
@@ -61,21 +59,25 @@ public class RoundedImageView extends ImageView {
         }finally {
             typedArray.recycle();
         }
+        Drawable drawable= getDrawable();
+        if (drawable!=null){
+         if (drawable instanceof RoundedBitmapDrawable){
+             ((RoundedBitmapDrawable)drawable).setCornerRadius(radius);
+         }else {
+             setImageDrawable(drawable);
+         }
+        }
     }
 
-
-    @Override
-    protected void onDraw(Canvas canvas) {
+//sometime is not working
+//    @Override
+//    protected void onDraw(Canvas canvas) {
 //        if (mRectF != null) {
 //            mPath.addRoundRect(mRectF, radius, radius, Path.Direction.CW);
 //            canvas.clipPath(mPath);
 //        }
-        Drawable drawable=getDrawable();
-        if (drawable!=null&&!(drawable instanceof RoundedBitmapDrawable)){
-            setImageDrawable(drawable);
-        }
-        super.onDraw(canvas);
-    }
+//        super.onDraw(canvas);
+//    }
 
     @Override
     public void setImageBitmap(Bitmap bm) {
