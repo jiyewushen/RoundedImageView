@@ -14,7 +14,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mRoundedImageView=findViewById(R.id.image);
         Glide.with(this).load(R.drawable.city).into(mRoundedImageView);
-//        mRoundedImageView.setRadius(30);
 //        mRoundedImageView.setImageResource(R.drawable.city);
     }
 }

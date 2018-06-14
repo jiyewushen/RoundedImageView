@@ -3,26 +3,31 @@ package com.cx.uilib;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 
 /**
  * Created by cx on 2018/6/5.
  */
 public class RoundedImageView extends ImageView {
-    private Path mPath;
-    private RectF mRectF;
-    private float radius;
+    private static final String TAG = "RoundedImageView";
+    private float srcRadius;
+    private float backgroundRadius;
 
     public RoundedImageView(Context context) {
         super(context);
@@ -46,49 +51,41 @@ public class RoundedImageView extends ImageView {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        mPath = new Path();
-        this.post(new Runnable() {
-            @Override
-            public void run() {
-                mRectF = new RectF(0, 0, RoundedImageView.this.getWidth(), RoundedImageView.this.getHeight());
-            }
-        });
         if (attrs == null) return;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundedImageView, defStyleAttr, defStyleRes);
         try {
-            radius = typedArray.getDimension(R.styleable.RoundedImageView_radius, 0);
+            srcRadius = typedArray.getDimension(R.styleable.RoundedImageView_src_radius, 0);
+            backgroundRadius=typedArray.getDimension(R.styleable.RoundedImageView_background_radius,0);
         } finally {
             typedArray.recycle();
         }
-        Drawable drawable = getDrawable();
-        if (drawable != null) {
-            if (drawable instanceof RoundedBitmapDrawable) {
-                ((RoundedBitmapDrawable) drawable).setCornerRadius(radius);
-            } else {
-                setImageDrawable(drawable);
+        if (srcRadius!=0) {
+            Drawable srcDrawable = getDrawable();
+            if (srcDrawable != null) {
+                if (srcDrawable instanceof RoundedBitmapDrawable) {
+                    ((RoundedBitmapDrawable) srcDrawable).setCornerRadius(srcRadius);
+                } else {
+                    setImageDrawable(srcDrawable);
+                }
             }
         }
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        Drawable drawable = getDrawable();
-        if ((drawable instanceof RoundedBitmapDrawable) || (drawable instanceof BitmapDrawable)) {
-            super.onDraw(canvas);
-            return;
+        if (backgroundRadius!=0){
+            Drawable backgroundDrawable=getBackground();
+            if (backgroundDrawable != null) {
+                if (backgroundDrawable instanceof RoundedBitmapDrawable) {
+                    ((RoundedBitmapDrawable) backgroundDrawable).setCornerRadius(backgroundRadius);
+                } else {
+                  setBackground(backgroundDrawable);
+                }
+            }
         }
-        if (mRectF != null) {
-            mPath.addRoundRect(mRectF, radius, radius, Path.Direction.CW);
-            canvas.clipPath(mPath);
-        }
-        super.onDraw(canvas);
     }
 
     @Override
     public void setImageBitmap(Bitmap bm) {
 //        super.setImageBitmap(bm);
         RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), bm);
-        roundedBitmapDrawable.setCornerRadius(radius);
+        roundedBitmapDrawable.setCornerRadius(srcRadius);
         setImageDrawable(roundedBitmapDrawable);
     }
 
@@ -99,7 +96,7 @@ public class RoundedImageView extends ImageView {
             Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
             if (bitmap != null) {
                 RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-                roundedBitmapDrawable.setCornerRadius(radius);
+                roundedBitmapDrawable.setCornerRadius(srcRadius);
                 super.setImageDrawable(roundedBitmapDrawable);
                 return;
             }
@@ -107,9 +104,44 @@ public class RoundedImageView extends ImageView {
         super.setImageDrawable(drawable);
     }
 
+    @Override
+    public void setBackground(Drawable background) {
+        if (background == null) return;
+        if (background instanceof BitmapDrawable) {
+            Bitmap bitmap = ((BitmapDrawable) background).getBitmap();
+            if (bitmap != null) {
+                RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+                roundedBitmapDrawable.setCornerRadius(backgroundRadius);
+                super.setImageDrawable(roundedBitmapDrawable);
+                return;
+            }
+        }else if (background instanceof ColorDrawable){
+            ColorDrawable colorDrawable= (ColorDrawable) background;
+            Canvas canvas=new Canvas();
+            Bitmap bitmap=Bitmap.createBitmap(1,1, Bitmap.Config.ARGB_8888);
+            canvas.setBitmap(bitmap);
+            canvas.drawColor(colorDrawable.getColor());
+            RoundedBitmapDrawable roundedBitmapDrawable=RoundedBitmapDrawableFactory.create(getResources(),bitmap);
+            roundedBitmapDrawable.setCornerRadius(backgroundRadius);
+            super.setBackground(roundedBitmapDrawable);
+            return;
+        }
+        super.setBackground(background);
+    }
 
-    public void setRadius(float radius) {
-        this.radius = radius;
-        invalidate();
+    public void setBackgroundRadius(float backgroundRadius) {
+        this.backgroundRadius = backgroundRadius;
+        Drawable background=getBackground();
+        if (background!=null&&background instanceof RoundedBitmapDrawable){
+            ((RoundedBitmapDrawable) background).setCornerRadius(backgroundRadius);
+        }
+    }
+
+    public void setSrcRadius(float srcRadius) {
+        this.srcRadius = srcRadius;
+        Drawable drawable=getDrawable();
+        if (drawable!=null&&drawable instanceof RoundedBitmapDrawable){
+            ((RoundedBitmapDrawable) drawable).setCornerRadius(srcRadius);
+        }
     }
 }
