@@ -1,7 +1,11 @@
-# RoundedImageView
+# RoundedImageView[ ![Download](https://api.bintray.com/packages/jiyewushen/maven/roundedimageview-release/images/download.svg) ](https://bintray.com/jiyewushen/maven/roundedimageview-release/_latestVersion)
 With rounded corners ImageView，带圆角的ImageView
 
 ### User Gudie
+* gradle
+  ```java
+  compile 'com.cx:roundedimageview-release:1.0.0'
+  ```
 * use XML to config. like background,you can use color or image.
 
 ```java

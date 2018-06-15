@@ -1,9 +1,16 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
+publish {
+    userOrg = 'jiyewushen'
+    groupId = 'com.cx'
+    artifactId = 'roundedimageview-release'
+    publishVersion = '1.0.0'
+    desc = 'ImageView with rounded corners'
+    website = 'https://github.com/jiyewushen/RoundedImageView'
+}
 
 android {
     compileSdkVersion 27
-
-
 
     defaultConfig {
         minSdkVersion 18
@@ -19,6 +26,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    lintOptions {
+        abortOnError false
     }
 
 }
