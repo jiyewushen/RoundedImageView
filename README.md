@@ -28,6 +28,6 @@ With rounded corners ImageView，带圆角的ImageView
         />
 ```
 | 方式一 |方式二|
-| --- | --- |
-|     |   |
+| :---: | :---: |
+| ![](https://github.com/jiyewushen/RoundedImageView/blob/master/test1.png)|![](https://github.com/jiyewushen/RoundedImageView/blob/master/test2.png)|
 * use code to config.
