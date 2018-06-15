@@ -112,7 +112,7 @@ public class RoundedImageView extends ImageView {
             if (bitmap != null) {
                 RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
                 roundedBitmapDrawable.setCornerRadius(backgroundRadius);
-                super.setImageDrawable(roundedBitmapDrawable);
+                super.setBackground(roundedBitmapDrawable);
                 return;
             }
         }else if (background instanceof ColorDrawable){
