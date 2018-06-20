@@ -3,26 +3,22 @@ package com.cx.uilib;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
 import android.graphics.Canvas;
-import android.graphics.Path;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 
 /**
- * Created by cx on 2018/6/5.
+ *
+ * @author cx
+ * @date 2018/6/5
  */
 public class RoundedImageView extends ImageView {
     private static final String TAG = "RoundedImageView";
@@ -51,7 +47,9 @@ public class RoundedImageView extends ImageView {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        if (attrs == null) return;
+        if (attrs == null) {
+            return;
+        }
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundedImageView, defStyleAttr, defStyleRes);
         try {
             srcRadius = typedArray.getDimension(R.styleable.RoundedImageView_src_radius, 0);
@@ -83,7 +81,6 @@ public class RoundedImageView extends ImageView {
 
     @Override
     public void setImageBitmap(Bitmap bm) {
-//        super.setImageBitmap(bm);
         RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), bm);
         roundedBitmapDrawable.setCornerRadius(srcRadius);
         setImageDrawable(roundedBitmapDrawable);
@@ -91,7 +88,9 @@ public class RoundedImageView extends ImageView {
 
     @Override
     public void setImageDrawable(@Nullable Drawable drawable) {
-        if (drawable == null) return;
+        if (drawable == null) {
+            return;
+        }
         if (drawable instanceof BitmapDrawable) {
             Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
             if (bitmap != null) {
@@ -106,7 +105,9 @@ public class RoundedImageView extends ImageView {
 
     @Override
     public void setBackground(Drawable background) {
-        if (background == null) return;
+        if (background == null) {
+            return;
+        }
         if (background instanceof BitmapDrawable) {
             Bitmap bitmap = ((BitmapDrawable) background).getBitmap();
             if (bitmap != null) {

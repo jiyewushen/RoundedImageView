@@ -6,6 +6,9 @@ import android.os.Bundle;
 import com.bumptech.glide.Glide;
 import com.cx.uilib.RoundedImageView;
 
+/**
+ * @author cx
+ */
 public class MainActivity extends AppCompatActivity {
   private RoundedImageView mRoundedImageView;
     @Override
