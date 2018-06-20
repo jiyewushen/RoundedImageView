@@ -4,8 +4,8 @@ With rounded corners ImageView，带圆角的ImageView
 ### User Gudie
 * gradle
   ```java
-  compile 'com.cx:roundedimageview-release:1.0.0'
-  //or implementation 'com.cx:roundedimageview-release:1.0.0'
+  compile 'com.cx:roundedimageview-release:1.0.1'
+  //or implementation 'com.cx:roundedimageview-release:1.0.1'
   ```
 * use XML to config. like background,you can use color or image.
 
