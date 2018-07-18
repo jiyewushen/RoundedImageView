@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mRoundedImageView=findViewById(R.id.image);
-        Glide.with(this).load(R.drawable.city).into(mRoundedImageView);
-//        mRoundedImageView.setImageResource(R.drawable.city);
+//        Glide.with(this).load(R.drawable.city).into(mRoundedImageView);
+        mRoundedImageView.setBackgroundColor(0xff148749);
     }
 }
