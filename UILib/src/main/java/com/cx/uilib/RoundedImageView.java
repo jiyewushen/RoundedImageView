@@ -15,6 +15,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 
 /**
@@ -67,9 +68,7 @@ public class RoundedImageView extends ImageView {
             if (srcDrawable != null) {
                 if (srcDrawable instanceof RoundedBitmapDrawable) {
                     ((RoundedBitmapDrawable) srcDrawable).setCornerRadius(srcRadius);
-                } else if (srcDrawable instanceof PaintDrawable){
-                    ((PaintDrawable)srcDrawable).setCornerRadius(srcRadius);
-                }else{
+                } else {
                     setImageDrawable(srcDrawable);
                 }
             }
@@ -79,9 +78,9 @@ public class RoundedImageView extends ImageView {
             if (backgroundDrawable != null) {
                 if (backgroundDrawable instanceof RoundedBitmapDrawable) {
                     ((RoundedBitmapDrawable) backgroundDrawable).setCornerRadius(backgroundRadius);
-                } else if (backgroundDrawable instanceof PaintDrawable){
-                    ((PaintDrawable)backgroundDrawable).setCornerRadius(backgroundRadius);
-                }else {
+                } else if (backgroundDrawable instanceof PaintDrawable) {
+                    ((PaintDrawable) backgroundDrawable).setCornerRadius(backgroundRadius);
+                } else {
                     setBackground(backgroundDrawable);
                 }
             }
@@ -108,14 +107,20 @@ public class RoundedImageView extends ImageView {
                 super.setImageDrawable(roundedBitmapDrawable);
                 return;
             }
-        }else if (drawable instanceof ColorDrawable) {
-            PaintDrawable paintDrawable=getPaintDrawable((ColorDrawable) drawable,srcRadius);
-            super.setImageDrawable(paintDrawable);
+        } else if (drawable instanceof ColorDrawable) {
+            setScaleType(ScaleType.FIT_XY);
+            RoundedBitmapDrawable roundedBitmapDrawable = getRoundedBitmapDrawable((ColorDrawable) drawable, srcRadius);
+            super.setImageDrawable(roundedBitmapDrawable);
             return;
-        }else if (drawable instanceof PaintDrawable){
-            PaintDrawable paintDrawable= (PaintDrawable) drawable;
-            paintDrawable.setCornerRadius(srcRadius);
-            super.setImageDrawable(paintDrawable);
+        } else if (drawable instanceof PaintDrawable) {
+//            it not visible at ImageView when use setImageDrawable
+//            PaintDrawable paintDrawable= (PaintDrawable) drawable;
+//            paintDrawable.setCornerRadius(srcRadius);
+//            super.setImageDrawable(paintDrawable);
+            setScaleType(ScaleType.FIT_XY);
+            RoundedBitmapDrawable roundedBitmapDrawable = getRoundedBitmapDrawable(new ColorDrawable(((PaintDrawable) drawable).getPaint().getColor()), srcRadius);
+            super.setImageDrawable(roundedBitmapDrawable);
+
             return;
         }
         super.setImageDrawable(drawable);
@@ -135,20 +140,20 @@ public class RoundedImageView extends ImageView {
                 return;
             }
         } else if (background instanceof ColorDrawable) {
-            PaintDrawable paintDrawable=getPaintDrawable((ColorDrawable) background,backgroundRadius);
+            PaintDrawable paintDrawable = getPaintDrawable((ColorDrawable) background, backgroundRadius);
             super.setBackground(paintDrawable);
             return;
-        }else if (background instanceof PaintDrawable){
-            PaintDrawable paintDrawable= (PaintDrawable) background;
+        } else if (background instanceof PaintDrawable) {
+            PaintDrawable paintDrawable = (PaintDrawable) background;
             paintDrawable.setCornerRadius(backgroundRadius);
             super.setBackground(paintDrawable);
             return;
         }
         super.setBackground(background);
     }
-    @Deprecated
+
     @NonNull
-    private RoundedBitmapDrawable getRoundedBitmapDrawable(@NonNull ColorDrawable colorDrawable,float radius) {
+    private RoundedBitmapDrawable getRoundedBitmapDrawable(@NonNull ColorDrawable colorDrawable, float radius) {
         Canvas canvas = new Canvas();
         Bitmap bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
         canvas.setBitmap(bitmap);
@@ -157,11 +162,12 @@ public class RoundedImageView extends ImageView {
         roundedBitmapDrawable.setCornerRadius(radius);
         return roundedBitmapDrawable;
     }
+
     @NonNull
-    private PaintDrawable getPaintDrawable(@NonNull ColorDrawable colorDrawable,float radius){
-       PaintDrawable paintDrawable=new PaintDrawable(colorDrawable.getColor());
-       paintDrawable.setCornerRadius(radius);
-       return paintDrawable;
+    private PaintDrawable getPaintDrawable(@NonNull ColorDrawable colorDrawable, float radius) {
+        PaintDrawable paintDrawable = new PaintDrawable(colorDrawable.getColor());
+        paintDrawable.setCornerRadius(radius);
+        return paintDrawable;
     }
 
     public void setBackgroundRadius(float backgroundRadius) {
@@ -170,9 +176,9 @@ public class RoundedImageView extends ImageView {
         if (background != null) {
             if (background instanceof RoundedBitmapDrawable) {
                 ((RoundedBitmapDrawable) background).setCornerRadius(backgroundRadius);
-            } else if (background instanceof PaintDrawable){
-                ((PaintDrawable)background).setCornerRadius(backgroundRadius);
-            }else {
+            } else if (background instanceof PaintDrawable) {
+                ((PaintDrawable) background).setCornerRadius(backgroundRadius);
+            } else {
                 setBackground(background);
             }
         }
@@ -184,8 +190,6 @@ public class RoundedImageView extends ImageView {
         if (drawable != null) {
             if (drawable instanceof RoundedBitmapDrawable) {
                 ((RoundedBitmapDrawable) drawable).setCornerRadius(srcRadius);
-            }else if (drawable instanceof PaintDrawable){
-                ((PaintDrawable)drawable).setCornerRadius(srcRadius);
             }else {
                 setImageDrawable(drawable);
             }

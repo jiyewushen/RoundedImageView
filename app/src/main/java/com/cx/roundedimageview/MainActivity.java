@@ -1,7 +1,11 @@
 package com.cx.roundedimageview;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.PaintDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.cx.uilib.RoundedImageView;
@@ -11,12 +15,19 @@ import com.cx.uilib.RoundedImageView;
  */
 public class MainActivity extends AppCompatActivity {
   private RoundedImageView mRoundedImageView;
+  private ImageView mImageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mRoundedImageView=findViewById(R.id.image);
-//        Glide.with(this).load(R.drawable.city).into(mRoundedImageView);
-        mRoundedImageView.setBackgroundColor(0xff148749);
+        mImageView=findViewById(R.id.image_view);
+//        mImageView.setImageDrawable(new PaintDrawable(Color.GRAY));
+//        mImageView.setBackground(new PaintDrawable(Color.RED));
+//        mRoundedImageView.setImageDrawable(new ColorDrawable(Color.GRAY));
+        mRoundedImageView.setImageDrawable(new ColorDrawable(Color.GRAY));
+        mRoundedImageView.setSrcRadius(10);
+//        mRoundedImageView.setBackground(new ColorDrawable(Color.GRAY));
+//        mRoundedImageView.setBackgroundRadius(20);
     }
 }
