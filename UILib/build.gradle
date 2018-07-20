@@ -4,7 +4,7 @@ publish {
     userOrg = 'jiyewushen'
     groupId = 'com.cx'
     artifactId = 'roundedimageview-release'
-    publishVersion = '1.0.2'
+    publishVersion = '1.0.3'
     desc = 'ImageView with rounded corners'
     website = 'https://github.com/jiyewushen/RoundedImageView'
 }
@@ -16,7 +16,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 4
-        versionName "1.0.2"
+        versionName "1.0.3"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
